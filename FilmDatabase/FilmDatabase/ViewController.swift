@@ -12,10 +12,31 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     @IBOutlet var TableView: [UITableView]!
     
+    var datadetail = [Movie]()
+    
     let data = ["1", "2", "3"]
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+         
+        guard let url = URL(string: "https://api.themoviedb.org/3/search/movie?api_key=4423e8392de79824a85f90ecf9fc6c55&language=hu-HU&query=1&page=1") else {return}
+        
+        let session = URLSession.shared
+        session.dataTask(with: url) { (data, response, error) in
+        if let response = response {
+            print(response)
+        }
+        if let data = data {
+            print(data)
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: [])
+                
+            } catch {
+                print(error)
+            }
+        }
+    
+        }.resume()
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

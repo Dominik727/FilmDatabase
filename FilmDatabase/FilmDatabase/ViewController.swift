@@ -12,7 +12,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     @IBOutlet var TableView: [UITableView]!
     
-    var datadetail = [Movie]()
+    var movies = [Result]()
     
     let data = ["1", "2", "3"]
     override func viewDidLoad() {
@@ -23,13 +23,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let session = URLSession.shared
         session.dataTask(with: url) { (data, response, error) in
         if let response = response {
-            print(response)
+            //print(response)
         }
         if let data = data {
             print(data)
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: [])
-                
+                print(json)
+                var datadetail: Movie = json as! Movie
+                for item in datadetail.results {
+                    self.movies.append(item)
+                }
+                print(self.movies[0].title)
             } catch {
                 print(error)
             }
@@ -48,7 +53,5 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.textLabel?.text = data[indexPath.row]
         return cell
     }
-
-
 }
 
